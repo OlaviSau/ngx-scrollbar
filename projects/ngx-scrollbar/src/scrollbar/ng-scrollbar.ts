@@ -68,27 +68,21 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
   ];
 
   /** Disable custom scrollbars and switch back to native scrollbars */
-  @Input('disabled')
-  get disabled() {
-    return this._disabled;
-  }
-
-  set disabled(disable: boolean) {
+  disabled = false;
+  @Input('disabled') set setDisabled(disable: boolean) {
     disable ? this.disable() : this.enable();
   }
 
-  private _disabled = false;
-
   /** Scrollbars ElementRef */
-  @ViewChild('y', {read: ElementRef}) verticalScrollbar: ElementRef;
-  @ViewChild('x', {read: ElementRef}) horizontalScrollbar: ElementRef;
+  @ViewChild('y', {read: ElementRef, static: true}) verticalScrollbar: ElementRef;
+  @ViewChild('x', {read: ElementRef, static: true}) horizontalScrollbar: ElementRef;
 
   /** Default viewport and smoothScroll references */
-  @ViewChild(CdkScrollable) scrollViewport: CdkScrollable;
-  @ViewChild(SmoothScroll) viewSmoothScroll: SmoothScroll;
+  @ViewChild(CdkScrollable, {static: true}) scrollViewport: CdkScrollable;
+  @ViewChild(SmoothScroll, {static: true}) viewSmoothScroll: SmoothScroll;
 
   /** Virtual viewport and smoothScroll references */
-  @ContentChild(NgScrollbarView) customViewPort: NgScrollbarView;
+  @ContentChild(NgScrollbarView, {static: true}) customViewPort: NgScrollbarView;
 
   /** Viewport Element */
   get view(): HTMLElement {
@@ -195,7 +189,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
    */
   enable() {
     if (this.view) {
-      this._disabled = false;
+      this.disabled = false;
       // Update view
       this._changeDetectorRef.markForCheck();
 
@@ -211,7 +205,7 @@ export class NgScrollbar implements AfterViewInit, OnDestroy {
    * Disable custom scrollbar
    */
   disable() {
-    this._disabled = true;
+    this.disabled = true;
     if (this._observer) {
       this._observer.disconnect();
     }

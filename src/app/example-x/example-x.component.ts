@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ViewChild, Component, ElementRef } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { NgScrollbar } from 'ngx-scrollbar';
-// import { NgScrollbar } from '../../../projects/ngx-scrollbar/src/public_api';
 
 @Component({
   selector: 'app-example-x',
@@ -15,7 +14,7 @@ export class ExampleXComponent {
   invertX = false;
   more = false;
   cssVariables: SafeStyle;
-  @ViewChild(NgScrollbar, {read: ElementRef}) private _scrollable: ElementRef;
+  @ViewChild(NgScrollbar, {read: ElementRef, static: true}) private _scrollable: ElementRef;
 
   constructor(private _sanitizer: DomSanitizer) {
   }
